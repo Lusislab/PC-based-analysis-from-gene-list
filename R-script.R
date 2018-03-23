@@ -175,4 +175,12 @@ alternate.cols <- function(m1, m2) {
 PC_trait_cor = alternate.cols(comp.trait.cor ,comp.trait.p)
 write.table(PC_trait_cor, file="PC X trait bicor and pvalue.txt",row.names=T, col.names=T, sep='\t', quote=F)
 
+#Now generate a heatmap of each PC cxorrelated against all traits
+comp.trait.cor = na.omit(comp.trait.cor)
+
+#specify colors
+my_colors <- colorRampPalette(c("red", "white", "green"))(n = 299)
+heatmap.2(as.matrix(comp.trait.cor), col=my_colors, density.info="none", trace="none", cexRow =  0.1, cexCol = 0.1, dendrogram="none",Colv = T, Rowv = T, symm=F,symkey=T, symbreaks=T, scale="none", na.rm=T)
+
+#The heatmap produced is listed as "PC1 and PC2 x trait heatmap.pdf"
 
