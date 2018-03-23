@@ -33,6 +33,16 @@
 ### PC1 and PC2 x trait heatmap.pdf
 #### Heatmap showing correlation of all traits across PC1 and PC2 
 
-## Files generated
+## Files
+### The following are files used to run the scripts
+### Human_gwas_gene_list.txt 
+#### lists of genes to be used in constructing Principle component based vectors
+### Human_MS_Orths.txt 
+#### Mouse and Human Orthologous genes from JAX
+### pre-processed_transcripts.txt pre-processed_traits.txt
+#### Tables of pre-processed files produced from merged SQL data which will be used for downstream analysis
 
+### The following files are generated form the scripts
+#### PC X trait bicor and pvalue.txt
+### The resulting bicor coefficent and pvalues for PC1 and PC2 across HMDP Ath traits
                                               
