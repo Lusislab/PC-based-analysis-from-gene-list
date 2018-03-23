@@ -90,8 +90,10 @@ g$`trx$mouse_number` = NULL
 #These data frames contain only "mouse_number" which match between the two
 #these preprocessed examples are provided as "pre-processed_traits.txt" for traits or "pre-processed_transcripts.txt" for transcripts
 
-
-HOM_MouseHumanSequence_rpt <- read.delim("C:/Users/mseldin/Desktop/Mouse Gene info with Human Orthologues.txt", "\t", header = T)
+#The next goal will be to use a gene list in order to generate Principle Components from transcripts
+#We will use a list of candidate human GWAS genes supplied by Hooman Allayee
+#To find mouse orthologues for human genes, we use the deposited list "Human_MS_Orths.txt"
+HOM_MouseHumanSequence_rpt <- read.delim("Human_MS_Orths.txt", "\t", header = T)
 
 new_list <- read.delim("C:/Users/mseldin/Desktop/lab files/Hooman Lab/Gene List for Marcus-Calvin.txt", header = T)
 
