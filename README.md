@@ -21,7 +21,7 @@
 
 ## Plots generated
 ### The following plots are generated from the script:
-### PC contribution - ALL genes.pdf
+### Human GWAS list HMDP gene X gene correlation.pdf
 #### Heatmap showing correlation structure of specified genes accross the HMDP Aorta expression arrays
 
 ### PC contribution - ALL genes.pdf
