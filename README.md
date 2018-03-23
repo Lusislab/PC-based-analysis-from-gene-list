@@ -21,7 +21,7 @@
 
 ## Plots generated
 ### The following plots are generated from the script:
-### PC-based-analysis-from-gene-list/PC contribution - ALL genes.pdf
+### PC contribution - ALL genes.pdf
 #### Heatmap showing correlation structure of specified genes accross the HMDP Aorta expression arrays
 
 ### PC contribution - ALL genes.pdf
