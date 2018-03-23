@@ -95,7 +95,8 @@ g$`trx$mouse_number` = NULL
 #To find mouse orthologues for human genes, we use the deposited list "Human_MS_Orths.txt"
 HOM_MouseHumanSequence_rpt <- read.delim("Human_MS_Orths.txt", "\t", header = T)
 
-new_list <- read.delim("C:/Users/mseldin/Desktop/lab files/Hooman Lab/Gene List for Marcus-Calvin.txt", header = T)
+#Now we read in the list of genes used to construct the PC - This is supplied as "Human_gwas_gene_list.txt"
+new_list <- read.delim("Human_gwas_gene_list.txt", "\t", header = T)
 
 new_list$mouse_orth = HOM_MouseHumanSequence_rpt$Symbol[match(new_list$Gene.based.Analysis1, HOM_MouseHumanSequence_rpt$human_orth)]
 
