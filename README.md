@@ -5,18 +5,18 @@
 
 ## Packages used
 RODBC
-Pull data from SQL server
+#Pull data from SQL server
 
 reshape2
-dcast function used to generate aggregate matrix for correlations
+#dcast function used to generate aggregate matrix for correlations
 
 WGCNA 
-bicorAndPvalue function used to construct correlations
+#bicorAndPvalue function used to construct correlations
 
 gplots
-heatmap.2 function to generate heatmap of gene X gene and gene x trait correlations
+#heatmap.2 function to generate heatmap of gene X gene and gene x trait correlations
 
 factoextra
-fviz_pca_var function used to visualize gene-contributions to PCs
+#fviz_pca_var function used to visualize gene-contributions to PCs
 
 ## Plots generated
