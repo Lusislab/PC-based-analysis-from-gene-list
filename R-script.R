@@ -98,12 +98,13 @@ HOM_MouseHumanSequence_rpt <- read.delim("Human_MS_Orths.txt", "\t", header = T)
 #Now we read in the list of genes used to construct the PC - This is supplied as "Human_gwas_gene_list.txt"
 new_list <- read.delim("Human_gwas_gene_list.txt", "\t", header = T)
 
+#Add a new column which contains the mouse orthologue for each human gene_symbol
 new_list$mouse_orth = HOM_MouseHumanSequence_rpt$Symbol[match(new_list$Gene.based.Analysis1, HOM_MouseHumanSequence_rpt$human_orth)]
 
+#Generate a new data frame from "g" (all transcripts) which only contains those from the "Human_gwas_gene_list.txt" 
 
 gg = t(g)
 gg = as.data.frame(gg)
-
 gg$m = match(row.names(gg), new_list$mouse_orth, nomatch = 0)
 gg$mm = gg$m >0
 gg = gg[!grepl("FALSE",gg$mm),]
@@ -111,36 +112,67 @@ gg$m = NULL
 gg$mm = NULL
 gg = t(gg)
 gg = as.data.frame(gg)
-gg$Myh11 = NULL
-gg$Mybphl = NULL
 
-#look at gene X gene correlation
-
-gg.cor = bicor(gg, gg, use = 'pairwise.complete.obs')
-
+#look at gene X gene correlation and generate heatmap of the correlation structure of the genes themselves
+#This plot is shown as "Human GWAS list HMDP gene X gene correlation.pdf"
+gg.cor = bicorAndPvalue(gg, gg, use = 'pairwise.complete.obs')
 my_colors <- colorRampPalette(c("yellow", "grey", "blue"))(n = 299)
-heatmap.2(as.matrix(gg.cor), col=my_colors, density.info="none", trace="none", cexRow =  0.1, cexCol = 0.1, dendrogram="none",Colv = T, Rowv = T, symm=F,symkey=T, symbreaks=T, scale="none", na.rm=T)
+heatmap.2(as.matrix(gg.cor$bicor), col=my_colors, density.info="none", trace="none", cexRow =  0.1, cexCol = 0.1, dendrogram="none",Colv = T, Rowv = T, symm=F,symkey=T, symbreaks=T, scale="none", na.rm=T)
 
+#Perform Principle component analysis on the list of genes and their correlation within the HMDP
 pcca = prcomp(gg)
+
+#The summarry will print features of each principle comonent
+summary(pcca)
+
+#The postion of each strain on gene-driven PCs is used to proceed forward
+position = pcca$x
+
+#Visualize the contribution of each gene to PC1 and PC2
+#This plot is shown as "PC contribution - ALL genes.pdf"
+fviz_pca_var(pcca, col.var = "contrib",
+             gradient.cols = c("grey", "blue"),
+             ggtheme = theme_minimal())
+#We can see that PC1 and PC2 are being driven by two genes.  If needed, these can be removed from the gene expression matrix
+#Remove the "outlier genes" - Note the column names are specified as the "gene_symbol" where genes "Myh11" and "Mybphl" are removed
+gg[,"Myh11"] = NULL
+gg[,"Mybphl"] = NULL
+pcca = prcomp(gg)
+
+#Repeat the PC analysis on outlier-removed genes
 summary(pcca)
 position = pcca$x
 
-
-
+#Visualize the contribution of each gene to PC1 and PC2 after removing the two outliers.  Note the genes are more evenly spread in their contribution
+#This plot is shown as "PC contribution - outliers removed.pdf"
 fviz_pca_var(pcca, col.var = "contrib",
              gradient.cols = c("grey", "blue"),
              ggtheme = theme_minimal())
 
-#print variance explained
 
+#Now with the "pcca" result representative vectors of PC1 and PC2 will be used for correlation
+gg = as.data.frame(gg)
 
+#assign the contribution for wach individual
 contr = abs(pcca$rotation)
+#use the first 2 PCs - note, can use more by speciying length of columns
+comps = as.data.frame(cbind(pcca$x[,1:2]))
 
-comps = as.data.frame(cbind(pcca$x[,1:3]))
+#construct correlation between position on PC axis vs trait
 trait.pc.cor = bicorAndPvalue(comps, t, use = "p")
 comp.trait.cor = as.data.frame(t(trait.pc.cor$bicor))
 comp.trait.p = as.data.frame(t(trait.pc.cor$p))
 
-write.table(comp.trait.cor, file="PC X trait bicor",row.names=T, col.names=T, sep='\t', quote=F)
-write.table(comp.trait.p, file="PC X trait pvalue",row.names=T, col.names=T, sep='\t', quote=F)
-write.table(contr[,1:3], file="PC gene contributions",row.names=T, col.names=T, sep='\t', quote=F)
+#Assign colnames to eahc of the data.frames
+colnames(comp.trait.cor) = c("PC1_bicor", "PC2_bicor")
+colnames(comp.trait.p) = c("PC1_pvalue", "PC2_pvalue")
+alternate.cols <- function(m1, m2) {
+  cbind(m1, m2)[, order(c(seq(ncol(m1)), seq(ncol(m2))))]
+}
+
+#This produces a dataframe which shows the correlations between PC1 and PC2 vs traits 
+#this files is listed as "PC X trait bicor and pvalue.txt"
+PC_trait_cor = alternate.cols(comp.trait.cor ,comp.trait.p)
+write.table(PC_trait_cor, file="PC X trait bicor and pvalue.txt",row.names=T, col.names=T, sep='\t', quote=F)
+
+
