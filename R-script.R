@@ -28,7 +28,9 @@ match = sqlQuery(ch, query3, as.is=T, stringsAsFactors=F)
 
 #add the annotation for each trait, based on a matching "trait_id"
 traits$trait_name = traits.annot$trait_name[match(traits$trait_id, traits.annot$trait_id)]
-
+traits$c = traits.annot$trait_category[match(traits$trait_id, traits.annot$trait_id)]
+traits = traits[!grepl("lipidomics", traits$c,]
+                       
 #Add the "Maternal_strain" to each individual based on matching "mouse_number"
 traits$strain = match$Maternal_strain[match(traits$mouse_number, match$mouse_number)]
 
