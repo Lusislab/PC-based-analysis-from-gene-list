@@ -2,10 +2,10 @@
 
 deposited by Marcus
 
-R-scripts which pull specific datasets from the Lusislab SQL server, then takes user-defined lists to asses variation of gene sets across the HMDP
+R-scripts which pull specific datasets from the Lusislab SQL server, then takes user-defined lists to assess variation of gene sets across the HMDP
 
 
-This example focuses on the atherosclerosis study, where a list of human GWAS candidate genes are used to generante the PCs and correlated against traits
+This example focuses on the atherosclerosis study, where a list of human GWAS candidate genes are used to generate the PCs and correlated against traits
 
 # Packages used
 ### RODBC
@@ -34,7 +34,7 @@ The following plots are generated from the script:
 
 ### Human GWAS list HMDP gene X gene correlation.pdf
 
-Heatmap showing correlation structure of specified genes accross the HMDP Aorta expression arrays
+Heatmap showing correlation structure of specified genes across the HMDP Aorta expression arrays
 
 ### PC contribution - ALL genes.pdf
 
@@ -68,5 +68,5 @@ The following files are generated form the scripts
 
 ### PC X trait bicor and pvalue.txt
 
-The resulting bicor coefficent and pvalues for PC1 and PC2 across HMDP Ath traits
+The resulting bicor coefficient and pvalues for PC1 and PC2 across HMDP Ath traits
                                               
