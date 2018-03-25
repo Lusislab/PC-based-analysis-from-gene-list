@@ -67,21 +67,23 @@ dist_bc = dist(gg.cor$bicor)
 hc = hclust(dist_bc)
 bicor_values = melt(gg.cor$bicor) %>%
   mutate_at(vars(Var1, Var2), ~fct_relevel(., hc$labels[hc$order])) %>%
-  rename(gene1 = Var1, gene2= Var2, bicor = value)
+  setNames(c('gene1', 'gene2', 'bicor'))
 
 # make heatmap
+pdf('Human GWAS list HMDP gene X gene correlation.pdf', width=8, height=7)
 ggplot(bicor_values, aes(x=gene1, y=gene2, fill=bicor)) + geom_tile() +
   scale_fill_gradient2(low='yellow', mid='grey', high='blue') +
   xlab('') + ylab('') +
   theme(axis.text = element_text(size=4),
         axis.text.x = element_text(angle=90))
+dev.off()
 
 # do principal components analysis (PCA)
 pca = prcomp(expr_human_orthologous)
 summary(pca)
 
 # visualize PCA results
-pdf('PC contribution - ALL genes.pdf')
+pdf('PC contribution - ALL genes.pdf', width=11, height=8.5)
 fviz_pca_var(pca, col.var = "contrib",
              gradient.cols = c("grey", "blue"),
              ggtheme = theme_minimal())
@@ -89,7 +91,7 @@ dev.off()
 
 # remove outlying genes and redo PCA
 pca = select(expr_human_orthologous, -Myh11, -Mybphl) %>% prcomp
-pdf('PC contribution - outliers removed.pdf')
+pdf('PC contribution - outliers removed.pdf', width=11, height=8.5)
 fviz_pca_var(pca, col.var = "contrib",
              gradient.cols = c("grey", "blue"),
              ggtheme = theme_minimal())
